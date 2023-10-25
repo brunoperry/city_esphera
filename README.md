@@ -1,10 +1,10 @@
-# **Gizmo Engine** _(wasm)_
+# **City Esphera** _(wasm)_
 
 ![picture alt](https://raw.githubusercontent.com/brunoperry/gizmo_wasm/abb66453287b98c92e93509901a187b34347bade/placeholder.png "Gizmo wasm screenshot")
 
 ## About
 
-3D software renderer written in C, compiled to wasm _(via wasi)_ and controlled by Javascript. Its an hobby project for learning purposes only.
+3D software renderer demo for Inércia Demoparty 2023 written in C, compiled to wasm _(via wasi)_ and controlled by Javascript.
 
 ## Features
 
