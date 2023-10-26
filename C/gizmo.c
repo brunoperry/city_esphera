@@ -116,10 +116,22 @@ EXPORT void light_done()
     light3d = light_build(&light_to_build);
 }
 
+void apply_filter(int filter)
+{
+    if (filter == 0)
+    {
+        apply_barrel_distortion(display_size);
+    }
+    else if (filter == 1)
+    {
+        apply_fisheye(display_size);
+    }
+}
 EXPORT void update()
 {
     clear_z_buffer();
-    clear_color_buffer(0x22FF0000);
+    // clear_color_buffer(0xffc9fd);
+    clear_color_buffer(0xfffdc965);
     mat4_t view_matrix = cam_view();
     mat4_t proj_matrix = camera3d->proj_matrix;
     vec3_t light_dir = mat4_mul_vec3(view_matrix, vec3_new(light3d->direction[0], light3d->direction[1], light3d->direction[2]));
@@ -131,17 +143,7 @@ EXPORT void update()
         total_tris += objs3d[i]->mesh.num_triangles_to_render;
         draw(objs3d[i]);
     }
-    info_log(total_tris, total_tris * 3);
-}
 
-EXPORT void apply_filter(int filter)
-{
-    if (filter == 0)
-    {
-        apply_barrel_distortion(display_size);
-    }
-    else if (filter == 1)
-    {
-        apply_fisheye(display_size);
-    }
+    apply_filter(0);
+    info_log(total_tris, total_tris * 3);
 }

@@ -479,39 +479,88 @@ inline void apply_fisheye(display_size_t display_size)
 }
 inline void apply_barrel_distortion(display_size_t display_size)
 {
+
     // Find the center of the image
     int width = display_size.width;
     int height = display_size.height;
     float center_x = display_size.center_x;
     float center_y = display_size.center_y;
 
-    float k = 0.006f; // Distortion factor
+    int length = width * height;
+    uint32_t *distorted_buffer = malloc(length * sizeof(uint32_t));
+
+    float strength = 0.0002;
+
+    // Copy the original color_buffer to the distorted_buffer
+    for (int i = 0; i < length; i++) {
+        distorted_buffer[i] = display.color_buffer[i];
+    }
 
     // Iterate over all pixels in the image.
-    for (int y = 0; y < height; y++)
-    {
-        for (int x = 0; x < width; x++)
-        {
-            // Calculate the distance from the current pixel to the center of the image.
-            float distance = sqrt((x - center_x) * (x - center_x) + (y - center_y) * (y - center_y));
+    // for (int y = 0; y < height; y++)
+    // {
+    //     for (int x = 0; x < width; x++)
+    //     {
+    //         // Calculate the distance from the current pixel to the center of the image.
+    //         float distance = sqrt((x - center_x) * (x - center_x) + (y - center_y) * (y - center_y));
 
-            // Calculate the new coordinates of the pixel after applying the barrel distortion effect.
-            float new_x = (x - center_x) * (1.0f + k * distance * distance / (width * width)) + center_x;
-            float new_y = (y - center_y) * (1.0f + k * distance * distance / (height * height)) + center_y;
+    //         // Calculate the new coordinates of the pixel after applying the barrel distortion effect.
+    //         float new_x = (x - center_x) * (1.0f + k * distance * distance / (width * width)) + center_x;
+    //         float new_y = (y - center_y) * (1.0f + k * distance * distance / (height * height)) + center_y;
 
-            // Round the new coordinates to the nearest integer.
-            int round_x = (int)(new_x + 0.5f);
-            int round_y = (int)(new_y + 0.5f);
+    //         // Round the new coordinates to the nearest integer.
+    //         int round_x = (int)(new_x + 0.5f);
+    //         int round_y = (int)(new_y + 0.5f);
 
-            // Check if the new coordinates are within the bounds of the image.
-            if (round_x >= 0 && round_x < width && round_y >= 0 && round_y < height)
-            {
-                // Get the color of the pixel at the new coordinates.
-                uint32_t color = display.color_buffer[round_y * width + round_x];
+    //         // Check if the new coordinates are within the bounds of the image.
+    //         if (round_x >= 0 && round_x < width && round_y >= 0 && round_y < height)
+    //         {
+    //             // Get the color of the pixel at the new coordinates.
+    //             uint32_t color = display.color_buffer[round_y * width + round_x];
 
-                // Set the color of the current pixel to the color of the pixel at the new coordinates.
-                display.color_buffer[y * width + x] = color;
+    //             // Set the color of the current pixel to the color of the pixel at the new coordinates.
+    //             display.color_buffer[y * width + x] = color;
+    //         }
+    //     }
+    // }
+
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            // Calculate the linear index
+            int index = y * width + x;
+
+            // Calculate the distance from the center
+            int dx = x - center_x;
+            int dy = y - center_y;
+            float distance = sqrt(dx * dx + dy * dy);
+
+            // Apply barrel distortion
+            if (distance < center_x) {
+                // Calculate the angle
+                float angle = atan2(dy, dx);
+
+                // Calculate the new radius
+                float newRadius = distance + strength * distance * distance;
+
+                // Map the distorted coordinates back to the original image
+                int newX = center_x + newRadius * cos(angle);
+                int newY = center_y + newRadius * sin(angle);
+
+                // Check if the new coordinates are within the bounds
+                if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+                    // Calculate the linear index for the distorted image
+                    int new_index = newY * width + newX;
+
+                    // Copy the color from the original image to the distorted image
+                    distorted_buffer[index] = display.color_buffer[new_index];
+                    display.color_buffer[index] = distorted_buffer[index];
+                    // distorted_buffer[index] = 0xff000000;
+                }
             }
         }
     }
+                    
+
+    free(distorted_buffer);
 }

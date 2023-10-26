@@ -1,19 +1,9 @@
 {
   "meshes": [
     {
-      "name": "surfer",
-      "url": "./resources/meshes/surfer.obj",
-      "texture": "surfer"
-    },
-    {
-      "name": "bowl",
-      "url": "./resources/meshes/bowl.obj",
-      "texture": "bowl"
-    },
-    {
-      "name": "triangle",
-      "url": "./resources/meshes/triangle.obj",
-      "texture": "null"
+      "name": "sky",
+      "url": "./resources/meshes/sky.obj",
+      "texture": "sky"
     },
     {
       "name": "city01",
@@ -34,16 +24,17 @@
       "name": "billboard01",
       "url": "./resources/meshes/billboard01.obj",
       "texture": "billboards"
+    },
+    {
+      "name": "billboard02",
+      "url": "./resources/meshes/billboard02.obj",
+      "texture": "billboards"
     }
   ],
   "images": [
     {
-      "name": "surfer",
-      "url": "./resources/images/texture_surfer.png"
-    },
-    {
-      "name": "bowl",
-      "url": "./resources/images/sphere.png"
+      "name": "sky",
+      "url": "./resources/images/sky.png"
     },
     {
       "name": "citymap",
@@ -51,7 +42,7 @@
     },
     {
       "name": "billboards",
-      "url": "./resources/images/billboards.jpg"
+      "url": "./resources/images/billboards.jpeg"
     },
     {
       "name": "null",
