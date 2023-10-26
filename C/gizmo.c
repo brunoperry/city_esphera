@@ -72,9 +72,9 @@ EXPORT unsigned int *set_light_buffer()
 
     return light_buffer;
 }
-EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length, int textureID)
+EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length, int textureID, int apply_light)
 {
-    unsigned int *obj_buffer = malloc(7 * sizeof(int));
+    unsigned int *obj_buffer = malloc(8 * sizeof(int));
 
     object_to_build.v_buffer = malloc(v_length * sizeof(float));
     object_to_build.v_buffer_len = v_length;
@@ -86,6 +86,7 @@ EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length
     object_to_build.n_buffer_len = n_length;
 
     object_to_build.textureID = textureID;
+    object_to_build.apply_light = apply_light;
 
     object_to_build.p_buffer = malloc(3 * sizeof(float));
     object_to_build.r_buffer = malloc(3 * sizeof(float));
@@ -98,6 +99,7 @@ EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length
     obj_buffer[4] = (unsigned int)object_to_build.r_buffer;
     obj_buffer[5] = (unsigned int)object_to_build.s_buffer;
     obj_buffer[6] = (unsigned int)object_to_build.textureID;
+    obj_buffer[7] = (unsigned int)object_to_build.apply_light;
 
     return obj_buffer;
 }
@@ -144,6 +146,6 @@ EXPORT void update()
         draw(objs3d[i]);
     }
 
-    apply_filter(0);
+    // apply_filter(0);
     info_log(total_tris, total_tris * 3);
 }

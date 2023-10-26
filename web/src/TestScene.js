@@ -61,8 +61,8 @@ export default class TestScene extends Scene {
   }
 
   update(delta) {
-    const yRot = (this.#obj.rotation.y += delta);
-    // this.#obj.rotation = vec3(0, yRot, 0);
+    const yRot = (this.#obj.rotation.y += delta + 1);
+    this.#sky.rotation = vec3(0, yRot, 0);
 
     // this.#obj.rotate(delta);
     super.update(delta);

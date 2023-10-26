@@ -320,8 +320,8 @@ inline void draw_triangle_texel(int x, int y, vec4_t point_a, vec4_t point_b, ve
     // Only draw the pixel if the depth value is less than the one previously stored in the z-buffer
     if (interpolated_reciprocal_w < display.z_buffer[(display.width * y) + x])
     {
-        // int color = light_apply_intensity(texture.data[(texture.width * tex_y) + tex_x], light_intensity);
-        int color = light_apply_intensity(texture->texture_buffer[(texture->width * tex_y) + tex_x], light_intensity);
+        int color = texture->texture_buffer[(texture->width * tex_y) + tex_x];
+        // int color = light_apply_intensity(texture->texture_buffer[(texture->width * tex_y) + tex_x], light_intensity);
 
         // Draw a pixel at position (x,y) with the color that comes from the mapped texture
         draw_pixel(x, y, color);
@@ -489,7 +489,7 @@ inline void apply_barrel_distortion(display_size_t display_size)
     int length = width * height;
     uint32_t *distorted_buffer = malloc(length * sizeof(uint32_t));
 
-    float strength = 0.0002;
+    float strength = 0.002;
 
     // Copy the original color_buffer to the distorted_buffer
     for (int i = 0; i < length; i++) {

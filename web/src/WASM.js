@@ -77,7 +77,8 @@ export default class WASM {
       obj3D.vertices.length,
       obj3D.uvs.length,
       obj3D.normals.length,
-      obj3D.texture.id
+      obj3D.texture.id,
+      0
     );
     const buffers = new Int32Array(WASM.mem, obj_buffer, 7);
     obj3D.initialize(buffers);
