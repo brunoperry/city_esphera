@@ -74,6 +74,7 @@ EXPORT unsigned int *set_light_buffer()
 }
 EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length, int textureID, int apply_light)
 {
+
     unsigned int *obj_buffer = malloc(8 * sizeof(int));
 
     object_to_build.v_buffer = malloc(v_length * sizeof(float));
@@ -133,7 +134,7 @@ EXPORT void update()
 {
     clear_z_buffer();
     // clear_color_buffer(0xffc9fd);
-    clear_color_buffer(0xfffdc965);
+    clear_color_buffer(0xffff773e);
     mat4_t view_matrix = cam_view();
     mat4_t proj_matrix = camera3d->proj_matrix;
     vec3_t light_dir = mat4_mul_vec3(view_matrix, vec3_new(light3d->direction[0], light3d->direction[1], light3d->direction[2]));

@@ -31,7 +31,7 @@ inline void transform_object(mat4_t view_matrix, mat4_t proj_matrix, object3d_t 
 
     // Calculate the shade intensity based on how aliged is the normal with the flipped light direction ray
     // vec3_t light_dir = mat4_mul_vec3(view_matrix, vec3_new(light3d->direction[0], light3d->direction[1], light3d->direction[2]));
-
+    int apply_light = obj3d->apply_light;
     for (int i = 0; i < obj3d->mesh.num_triangles; i++)
     {
         // Get the triangle to transform
@@ -87,7 +87,7 @@ inline void transform_object(mat4_t view_matrix, mat4_t proj_matrix, object3d_t 
 
         // Clip the polygon and returns a new polygon with potential new vertices
         clip_polygon(&polygon);
-        float light_intensity_factor = -vec3_dot(normal, light_dir);
+        float light_intensity_factor = apply_light == 1 ? -vec3_dot(normal, light_dir) : 1.0f;
 
         // Break the clipped polygon apart back into individual triangles
         triangle_t triangles_after_clipping[MAX_NUM_POLY_TRIANGLES];

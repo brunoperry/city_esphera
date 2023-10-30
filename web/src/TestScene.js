@@ -3,7 +3,7 @@ import Scene from "./Scene.js";
 import { vec3 } from "./math.js";
 
 export default class TestScene extends Scene {
-  #sky
+  #sky;
   #obj;
   #obj2;
   #obj3;
@@ -27,7 +27,7 @@ export default class TestScene extends Scene {
 
     this.#antenna01 = Resources.get_object("antenna01");
 
-    this.add_obj3d(this.#sky);
+    this.add_obj3d(this.#sky, 0);
     this.add_obj3d(this.#obj);
     this.add_obj3d(this.#obj2);
     this.add_obj3d(this.#obj3);
@@ -36,6 +36,8 @@ export default class TestScene extends Scene {
     this.add_obj3d(this.#antenna01);
     this.add_obj3d(this.#billboard01);
     this.add_obj3d(this.#billboard02);
+
+    this.#sky.position = vec3(0, 4, 0);
 
     this.#obj2.position = vec3(0, 2, 0);
     this.#obj2.rotation = vec3(0, 90, 0);
@@ -53,7 +55,6 @@ export default class TestScene extends Scene {
 
     this.#billboard01.position = vec3(0.5, 4.5, 0);
     this.#billboard01.rotation = vec3(0, 90, 0);
-
 
     this.#billboard02.position = vec3(0.5, 2, 0.45);
 

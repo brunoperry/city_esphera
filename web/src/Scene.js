@@ -18,10 +18,10 @@ export default class Scene {
     this.set_camera(this.camera);
   }
 
-  add_obj3d(obj3d) {
+  add_obj3d(obj3d, applyLight = 1) {
     this.objects_3d.push(obj3d);
 
-    WASM.set_object_buffer(obj3d);
+    WASM.set_object_buffer(obj3d, applyLight);
   }
   set_camera(camera) {
     WASM.set_camera_buffer(camera);

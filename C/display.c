@@ -320,8 +320,8 @@ inline void draw_triangle_texel(int x, int y, vec4_t point_a, vec4_t point_b, ve
     // Only draw the pixel if the depth value is less than the one previously stored in the z-buffer
     if (interpolated_reciprocal_w < display.z_buffer[(display.width * y) + x])
     {
-        int color = texture->texture_buffer[(texture->width * tex_y) + tex_x];
-        // int color = light_apply_intensity(texture->texture_buffer[(texture->width * tex_y) + tex_x], light_intensity);
+        // int color = texture->texture_buffer[(texture->width * tex_y) + tex_x];
+        int color = light_apply_intensity(texture->texture_buffer[(texture->width * tex_y) + tex_x], light_intensity);
 
         // Draw a pixel at position (x,y) with the color that comes from the mapped texture
         draw_pixel(x, y, color);
@@ -492,7 +492,8 @@ inline void apply_barrel_distortion(display_size_t display_size)
     float strength = 0.002;
 
     // Copy the original color_buffer to the distorted_buffer
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++)
+    {
         distorted_buffer[i] = display.color_buffer[i];
     }
 
@@ -524,9 +525,10 @@ inline void apply_barrel_distortion(display_size_t display_size)
     //     }
     // }
 
-
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
             // Calculate the linear index
             int index = y * width + x;
 
@@ -536,7 +538,8 @@ inline void apply_barrel_distortion(display_size_t display_size)
             float distance = sqrt(dx * dx + dy * dy);
 
             // Apply barrel distortion
-            if (distance < center_x) {
+            if (distance < center_x)
+            {
                 // Calculate the angle
                 float angle = atan2(dy, dx);
 
@@ -548,7 +551,8 @@ inline void apply_barrel_distortion(display_size_t display_size)
                 int newY = center_y + newRadius * sin(angle);
 
                 // Check if the new coordinates are within the bounds
-                if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+                if (newX >= 0 && newX < width && newY >= 0 && newY < height)
+                {
                     // Calculate the linear index for the distorted image
                     int new_index = newY * width + newX;
 
@@ -560,7 +564,6 @@ inline void apply_barrel_distortion(display_size_t display_size)
             }
         }
     }
-                    
 
     free(distorted_buffer);
 }

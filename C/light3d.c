@@ -13,7 +13,7 @@ inline light_t *light_build(light_t *light_to_build)
 inline int light_apply_intensity(int original_color, float percentage_factor)
 {
     if (percentage_factor < 0.3)
-        percentage_factor = 0.3;
+        percentage_factor = 0.6;
     else if (percentage_factor > 1)
         percentage_factor = 1;
 
