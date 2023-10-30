@@ -15,6 +15,7 @@ typedef struct
     int height;
     int half_height;
     uint32_t *color_buffer;
+    uint32_t *filter_buffer;
     unsigned int *texture_buffer;
     int texture_width;
     int texture_height;

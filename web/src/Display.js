@@ -36,6 +36,8 @@ export default class Display {
 
   update() {
     // this.apply_fisheye();
+    // console.log(this.#c_buffer);
+    // const id = new ImageData(this.#c_buffer, Display.width);
 
     this.#context.putImageData(new ImageData(this.#c_buffer, Display.width), 0, 0);
   }

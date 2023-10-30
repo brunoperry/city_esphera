@@ -4,6 +4,7 @@ inline uint32_t *display_create(int width, int height)
 {
     int length = width * height;
     uint32_t *color_buffer = malloc(length * sizeof(uint32_t));
+    uint32_t *filter_buffer = malloc(length * sizeof(uint32_t));
     float *z_buffer = (float *)malloc(length * sizeof(float));
 
     display.width = width;
@@ -12,6 +13,7 @@ inline uint32_t *display_create(int width, int height)
     display.half_height = height / 2;
 
     display.color_buffer = color_buffer;
+    display.filter_buffer = filter_buffer;
     display.z_buffer = z_buffer;
     display.bytes_length = width * height;
 
@@ -440,106 +442,89 @@ inline void apply_fisheye(display_size_t display_size)
 {
     int width = display_size.width;
     int height = display_size.height;
+    int length = width * height;
 
-    int center_x = display_size.center_x;
-    int center_y = display_size.center_y;
-    float threshold = 0.5f * sqrt((float)width * (float)width + (float)height * (float)height);
 
-    // Iterate over all pixels in the image.
-    for (int y = 0; y < height; y++)
-    {
-        for (int x = 0; x < width; x++)
-        {
-            // Calculate the distance from the current pixel to the center of the image.
-            float distance = sqrt((x - center_x) * (x - center_x) + (y - center_y) * (y - center_y));
+    // Initialize your color_buffer with image data here
 
-            // Check if the pixel is within the threshold distance from the center.
-            if (distance <= threshold)
-            {
-                // Calculate the equisolid fisheye distortion factor.
-                float r = distance / threshold;
-                float distortion_factor = (2.0f / M_PI) * asin(r);
+    // Define the center of the fisheye effect
+    int centerX = display_size.center_x;
+    int centerY = display_size.center_y;
 
-                // Calculate the new coordinates of the pixel after applying the fisheye effect.
-                int new_x = (int)(center_x + distortion_factor * (x - center_x));
-                int new_y = (int)(center_y + distortion_factor * (y - center_y));
+    // Fisheye effect parameters
+    float strength = 1.0;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            // Calculate the linear index
+            int index = y * width + x;
 
-                // Check if the new coordinates are within the bounds of the image.
-                if (new_x >= 0 && new_x < width && new_y >= 0 && new_y < height)
-                {
-                    // Get the color of the pixel at the new coordinates.
-                    uint32_t color = display.color_buffer[new_y * width + new_x];
+            // Calculate the vector from the center
+            float dx = x - centerX;
+            float dy = y - centerY;
 
-                    // Set the color of the current pixel to the color of the pixel at the new coordinates.
-                    display.color_buffer[y * width + x] = color;
+            // Calculate the distance from the center
+            float distance = sqrt(dx * dx + dy * dy);
+
+            // Apply fisheye distortion
+            if (distance < centerX) {
+                float r = distance / centerX; // Normalize distance
+
+                // Apply the fisheye effect
+                float dr = (1.0 - r * r) * strength;
+
+                // Map the distorted coordinates back to the original image
+                int newX = centerX + dx * dr;
+                int newY = centerY + dy * dr;
+
+                // Ensure the new coordinates are within the bounds
+                if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+                    int new_index = newY * width + newX;
+
+                    // Copy the color from the original image to the fisheye_buffer
+                    display.filter_buffer[index] = display.color_buffer[new_index];
                 }
             }
         }
+    }
+
+    for (size_t i = 0; i < length; i++)
+    {
+       display.color_buffer[i] = display.filter_buffer[i];
     }
 }
 inline void apply_barrel_distortion(display_size_t display_size)
 {
 
-    // Find the center of the image
     int width = display_size.width;
     int height = display_size.height;
-    float center_x = display_size.center_x;
-    float center_y = display_size.center_y;
-
     int length = width * height;
-    uint32_t *distorted_buffer = malloc(length * sizeof(uint32_t));
 
-    float strength = 0.002;
+    // Initialize your color_buffer with image data here
+
+    // Define the center of the distortion
+    int centerX = display_size.center_x;
+    int centerY = display_size.center_y;
+
+    // Define the strength of the distortion
+    float strength = 0.005;
 
     // Copy the original color_buffer to the distorted_buffer
-    for (int i = 0; i < length; i++)
-    {
-        distorted_buffer[i] = display.color_buffer[i];
+    for (int i = 0; i < length; i++) {
+        display.filter_buffer[i] = display.color_buffer[i];
     }
 
-    // Iterate over all pixels in the image.
-    // for (int y = 0; y < height; y++)
-    // {
-    //     for (int x = 0; x < width; x++)
-    //     {
-    //         // Calculate the distance from the current pixel to the center of the image.
-    //         float distance = sqrt((x - center_x) * (x - center_x) + (y - center_y) * (y - center_y));
-
-    //         // Calculate the new coordinates of the pixel after applying the barrel distortion effect.
-    //         float new_x = (x - center_x) * (1.0f + k * distance * distance / (width * width)) + center_x;
-    //         float new_y = (y - center_y) * (1.0f + k * distance * distance / (height * height)) + center_y;
-
-    //         // Round the new coordinates to the nearest integer.
-    //         int round_x = (int)(new_x + 0.5f);
-    //         int round_y = (int)(new_y + 0.5f);
-
-    //         // Check if the new coordinates are within the bounds of the image.
-    //         if (round_x >= 0 && round_x < width && round_y >= 0 && round_y < height)
-    //         {
-    //             // Get the color of the pixel at the new coordinates.
-    //             uint32_t color = display.color_buffer[round_y * width + round_x];
-
-    //             // Set the color of the current pixel to the color of the pixel at the new coordinates.
-    //             display.color_buffer[y * width + x] = color;
-    //         }
-    //     }
-    // }
-
-    for (int y = 0; y < height; y++)
-    {
-        for (int x = 0; x < width; x++)
-        {
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
             // Calculate the linear index
             int index = y * width + x;
 
             // Calculate the distance from the center
-            int dx = x - center_x;
-            int dy = y - center_y;
+            int dx = x - centerX;
+            int dy = y - centerY;
             float distance = sqrt(dx * dx + dy * dy);
 
-            // Apply barrel distortion
-            if (distance < center_x)
-            {
+            // Ensure the distance is within the screen bounds
+            if (distance < centerX) {
                 // Calculate the angle
                 float angle = atan2(dy, dx);
 
@@ -547,23 +532,25 @@ inline void apply_barrel_distortion(display_size_t display_size)
                 float newRadius = distance + strength * distance * distance;
 
                 // Map the distorted coordinates back to the original image
-                int newX = center_x + newRadius * cos(angle);
-                int newY = center_y + newRadius * sin(angle);
+                int newX = centerX + newRadius * cos(angle);
+                int newY = centerY + newRadius * sin(angle);
 
                 // Check if the new coordinates are within the bounds
-                if (newX >= 0 && newX < width && newY >= 0 && newY < height)
-                {
+                if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
                     // Calculate the linear index for the distorted image
                     int new_index = newY * width + newX;
 
                     // Copy the color from the original image to the distorted image
-                    distorted_buffer[index] = display.color_buffer[new_index];
-                    display.color_buffer[index] = distorted_buffer[index];
-                    // distorted_buffer[index] = 0xff000000;
+                    display.filter_buffer[index] = display.color_buffer[new_index];
+                } else {
+                    // Set pixels outside the effect area to black
+                    display.filter_buffer[index] = 0; // Assuming black is represented as 0
                 }
             }
         }
     }
 
-    free(distorted_buffer);
+    for (size_t i = 0; i < length; i++) {
+        display.color_buffer[i] = display.filter_buffer[i];
+    }
 }

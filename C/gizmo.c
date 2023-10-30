@@ -147,6 +147,6 @@ EXPORT void update()
         draw(objs3d[i]);
     }
 
-    // apply_filter(0);
+    apply_filter(0);
     info_log(total_tris, total_tris * 3);
 }
