@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 #include "object.h"
 #include "light3d.h"
 #include "utils.h"
