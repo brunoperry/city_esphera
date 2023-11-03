@@ -499,48 +499,44 @@ inline void apply_barrel_distortion(display_size_t display_size)
 {
     int width = display_size.width;
     int height = display_size.height;
-
     int length = width * height;
 
-    float distortionStrength = 0.1; // Adjust the strength of the distortion
-    float centerX = 0.5;            // Center of distortion (x-coordinate)
-    float centerY = 0.5;
+    // Define the center of the distortion
+    int centerX = display_size.center_x;
+    int centerY = display_size.center_y;
 
-    for (int y = 0; y < height; y++)
-    {
-        for (int x = 0; x < width; x++)
-        {
-            // Calculate the distance from the center of distortion
-            float dx = x / (float)width - centerX;
-            float dy = y / (float)height - centerY;
+    // Define the strength of the distortion
+    float strength = 0.005;
+
+    // Create a temporary buffer to store the distorted image
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            // Calculate the linear index
+            int index = y * width + x;
+
+            // Calculate the distance from the center
+            int dx = x - centerX;
+            int dy = y - centerY;
             float distance = sqrt(dx * dx + dy * dy);
 
-            // Apply distortion to the current pixel
-            if (distance < 1.0)
-            {
-                float scale = 1.0 + distortionStrength * distance;
-                int newX = (int)(x + dx * scale * width);
-                int newY = (int)(y + dy * scale * height);
+            // Calculate the new radius
+            float newRadius = distance + strength * distance * distance;
 
-                // Check bounds
-                if (newX >= 0 && newX < width && newY >= 0 && newY < height)
-                {
-                    // Calculate buffer indices for source and destination
-                    int sourceIndex = y * width + x;
-                    int destIndex = newY * width + newX;
+            // Map the distorted coordinates back to the original image
+            int newX = centerX + (dx * newRadius / distance);
+            int newY = centerY + (dy * newRadius / distance);
 
-                    // Apply distortion by copying pixel value
-                    display.filter_buffer[destIndex] = display.color_buffer[sourceIndex];
-                }
+            // Check if the new coordinates are within the bounds
+            if (newX >= 0 && newX < width && newY >= 0 && newY < height) {
+                // Calculate the linear index for the distorted image
+                int new_index = newY * width + newX;
+
+                // Copy the color from the original image to the temporary buffer
+                display.filter_buffer[index] = display.color_buffer[new_index];
             }
         }
     }
 
     memcpy(display.color_buffer, display.filter_buffer, length * sizeof(uint32_t));
-
-    // Copy the temporary buffer back to the original buffer to preserve the original scale
-    // for (int i = 0; i < length; i++)
-    // {
-    //     display.color_buffer[i] = display.filter_buffer[i];
-    // }
 }

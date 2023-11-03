@@ -13,6 +13,7 @@ export default class TestScene extends Scene {
   #antenna01;
   #billboard01;
   #billboard02;
+  #silhouete;
   constructor() {
     super("surfer");
 
@@ -24,10 +25,10 @@ export default class TestScene extends Scene {
     this.#obj5 = Resources.get_object("city01");
     this.#billboard01 = Resources.get_object("billboard01");
     this.#billboard02 = Resources.get_object("billboard02");
+    this.#silhouete = Resources.get_object("silhouete");
 
     this.#antenna01 = Resources.get_object("antenna01");
 
-    this.add_obj3d(this.#sky, 0);
     this.add_obj3d(this.#obj);
     this.add_obj3d(this.#obj2);
     this.add_obj3d(this.#obj3);
@@ -36,6 +37,8 @@ export default class TestScene extends Scene {
     this.add_obj3d(this.#antenna01);
     this.add_obj3d(this.#billboard01);
     this.add_obj3d(this.#billboard02);
+    this.add_obj3d(this.#silhouete);
+    this.add_obj3d(this.#sky, 0);
 
     this.#sky.position = vec3(0, 4, 0);
 
@@ -62,8 +65,8 @@ export default class TestScene extends Scene {
   }
 
   update(delta) {
-    const yRot = (this.#obj.rotation.y += delta + 1);
-    this.#sky.rotation = vec3(0, yRot, 0);
+    // const yRot = (this.#obj.rotation.y += delta + 1);
+    // this.#sky.rotation = vec3(0, yRot, 0);
 
     // this.#obj.rotate(delta);
     super.update(delta);

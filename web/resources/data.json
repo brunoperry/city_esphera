@@ -29,6 +29,11 @@
       "name": "billboard02",
       "url": "./resources/meshes/billboard02.obj",
       "texture": "billboards"
+    },
+    {
+      "name": "silhouete",
+      "url": "./resources/meshes/silhouete.obj",
+      "texture": "citymap"
     }
   ],
   "images": [
