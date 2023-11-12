@@ -31,9 +31,14 @@
       "texture": "billboards"
     },
     {
-      "name": "silhouete",
-      "url": "./resources/meshes/silhouete.obj",
+      "name": "skyline",
+      "url": "./resources/meshes/skyline.obj",
       "texture": "citymap"
+    },
+    {
+      "name": "plane",
+      "url": "./resources/meshes/plane.obj",
+      "texture": "plane"
     }
   ],
   "images": [
@@ -48,6 +53,10 @@
     {
       "name": "billboards",
       "url": "./resources/images/billboards.jpeg"
+    },
+    {
+      "name": "plane",
+      "url": "./resources/images/plane_texture.jpg"
     },
     {
       "name": "null",

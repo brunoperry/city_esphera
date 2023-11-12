@@ -30,7 +30,7 @@ EXPORT unsigned int *set_texture_buffer(int width, int height, int id)
 static camera_t camera_to_build;
 static light_t light_to_build;
 
-#define MAX_OBJECTS 10
+#define MAX_OBJECTS 20
 
 static object3d_to_build_t object_to_build;
 static object3d_t *objs3d[MAX_OBJECTS];
