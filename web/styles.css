@@ -11,6 +11,8 @@
 
   --gap: 10px;
 
+  --num-freqs: 31;
+
   --speed: 0.5s;
 }
 
@@ -58,7 +60,7 @@ body {
 body {
   justify-content: center;
   align-items: stretch;
-  max-width: 800px;
+  width: 800px;
   overflow: auto;
 }
 
@@ -201,10 +203,21 @@ button:active {
   grid-area: freqs;
   display: flex;
   justify-self: stretch;
+  justify-content: space-around;
+  align-items: flex-end;
+  gap: 2px;
 }
-#freqs canvas {
- background-image: none;
- flex: 1;
+
+.freq {
+  width: calc(calc(590px / var(--num-freqs)) - 5px);
+  height: 20px;
+  background-color: var(--color-d);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.freq:hover {
+  opacity: 1;
 }
 
 #tracks {
@@ -218,6 +231,7 @@ button:active {
   max-width: none;
   max-height: none;
 }
+
 #tracks button.toggle {
   color: white;
   background-color: var(--red);
@@ -294,7 +308,7 @@ button.toggled {
   opacity: 0;
 }
 
-@media (max-width: 800px) {
+/* @media (max-width: 800px) {
   :root {
     --gap: 10px;
   }
@@ -331,4 +345,4 @@ button.toggled {
     max-width: 52px;
     max-height: 52px;
   }
-}
+} */

@@ -1,5 +1,6 @@
 import Display from "./Display.js";
 import Resources from "./Resources.js";
+import Visualizer from "./Visualizer.js";
 
 export class UI {
   static Actions = {
@@ -26,14 +27,16 @@ export class UI {
   #shaded_btn = null;
   #textured_btn = null;
 
+  #visualizer = null;
+
   #console = null;
   #logs = null;
 
   #is_ready = false;
   #is_console_open = false;
 
-  #freqCanvas;
-  #currentTrack;
+  // #freqCanvas;
+  // #currentTrack;
 
   constructor(listener) {
     this.#listener = listener;
@@ -41,10 +44,10 @@ export class UI {
     this.#setupUI();
   }
 
-  enable() {
+  enable(audioController) {
     this.#hud.className = "";
     this.#controls.className = "";
-    this.finishUI();
+    this.finishUI(audioController);
   }
 
   disable() {
@@ -124,36 +127,39 @@ export class UI {
       });
     };
   }
-  finishUI() {
-    this.#freqCanvas = document.querySelector("#freqs").querySelector("canvas");
-    const tracks = document.querySelector("#tracks");
-
-    let currentTrack = 0;
-    Resources.audios.forEach((audio, index) => {
-      const btn = document.createElement("button");
-      btn.innerText = `track ${audio.name}`;
-      btn.onclick = () => {
-        tracks.children[currentTrack].className = "";
-        currentTrack = index;
-        tracks.children[currentTrack].className = "toggle";
-        this.#listener({
-          action: UI.Actions.GET_AUDIO,
-          index: 0,
-        });
-      };
-      if (index === currentTrack) {
-        btn.className = "toggle";
-      }
-      tracks.appendChild(btn);
+  finishUI(audioController) {
+    this.#visualizer = new Visualizer(audioController, (e) => {
+      console.log(e);
     });
+    // this.#freqCanvas = document.querySelector("#freqs").querySelector("canvas");
+    // const tracks = document.querySelector("#tracks");
+
+    // let currentTrack = 0;
+    // Resources.audios.forEach((audio, index) => {
+    // const btn = document.createElement("button");
+    // btn.innerText = `track ${audio.name}`;
+    // btn.onclick = () => {
+    //   tracks.children[currentTrack].className = "";
+    //   currentTrack = index;
+    //   tracks.children[currentTrack].className = "toggle";
+    //   this.#listener({
+    //     action: UI.Actions.GET_AUDIO,
+    //     index: 0,
+    //   });
+    // };
+    // if (index === currentTrack) {
+    //   btn.className = "toggle";
+    // }
+    //   tracks.appendChild(btn);
+    // });
   }
-  setAudio(audioTrack) {
-    // console.log(audioTrack);
-    this.#currentTrack = audioTrack;
-  }
-  updateFreqCanvas() {
-    // console.log(this.#currentTrack.get_frequency(0));
-  }
+  // setAudio(audioTrack) {
+  //   // console.log(audioTrack);
+  //   this.#currentTrack = audioTrack;
+  // }
+  // updateFreqCanvas() {
+  //   // console.log(this.#currentTrack.get_frequency(0));
+  // }
 
   log_console(value, color = "var(--color-d)") {
     const span = document.createElement("span");
@@ -189,6 +195,10 @@ export class UI {
   set_playpause(is_playing) {
     this.#check_is_ready();
 
+    // console.log(is_playing);
+
+    this.#visualizer.playPause();
+
     document.querySelector("canvas").style.backgroundImage = "none";
 
     const play_icon = document.querySelector("#icon-play");
@@ -211,7 +221,9 @@ export class UI {
     this.#verts_label.innerText = data.verts;
     this.#tris_label.innerText = data.tris;
 
-    this.updateFreqCanvas();
+    this.#visualizer.update();
+
+    // this.updateFreqCanvas();
   }
 
   set_scene_name(name, subtitle = null) {

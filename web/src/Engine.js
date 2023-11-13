@@ -108,6 +108,10 @@ export default class Engine {
     return this.#audio.get_track(audioIndex);
   }
 
+  getAudioController() {
+    return this.#audio;
+  }
+
   get render_mode() {
     return this.#display.render_mode;
   }

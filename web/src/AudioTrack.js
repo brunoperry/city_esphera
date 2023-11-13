@@ -81,6 +81,10 @@ export default class AudioTrack {
     this.is_playing = false;
   }
 
+  getFreqData() {
+    return this.#fbc;
+  }
+
   get current_time() {
     return this.#audio_ctx.currentTime - this.#started_at;
   }

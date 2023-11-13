@@ -6,6 +6,7 @@ export default class AudioController {
   #audio_ctx;
   #vol = 0.5;
   #listener;
+  isPlaying = false;
   constructor(listener = null) {
     this.#trks = Resources.audios;
     this.#main_track = Resources.main_audio;
@@ -47,6 +48,7 @@ export default class AudioController {
     this.#trks.forEach((trk) => {
       trk.play();
     });
+    this.isPlaying = true;
   }
 
   pause() {
@@ -55,6 +57,7 @@ export default class AudioController {
     this.#trks.forEach((trk) => {
       trk.pause();
     });
+    this.isPlaying = false;
   }
 
   stop() {
@@ -82,6 +85,10 @@ export default class AudioController {
   }
   get volume() {
     return this.#vol;
+  }
+
+  setListener(listener) {
+    this.#listener = listener;
   }
 
   setTimeAt(time) {}

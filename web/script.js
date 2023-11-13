@@ -43,7 +43,7 @@ const engine = new Engine((e, data) => {
       ui.log_console(data);
       break;
     case Engine.States.READY:
-      ui.enable();
+      ui.enable(engine.getAudioController());
       ui.set_scene_name(engine.scene_name);
       ui.set_scene_memory(engine.memory);
       ui.log_console(data);
