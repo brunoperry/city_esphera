@@ -33,12 +33,17 @@
     {
       "name": "skyline",
       "url": "./resources/meshes/skyline.obj",
-      "texture": "citymap"
+      "texture": "skyline"
     },
     {
       "name": "plane",
       "url": "./resources/meshes/plane.obj",
       "texture": "plane"
+    },
+    {
+      "name": "sun",
+      "url": "./resources/meshes/sun.obj",
+      "texture": "sun"
     }
   ],
   "images": [
@@ -57,6 +62,14 @@
     {
       "name": "plane",
       "url": "./resources/images/plane_texture.jpg"
+    },
+    {
+      "name": "skyline",
+      "url": "./resources/images/skyline_texture.jpg"
+    },
+    {
+      "name": "sun",
+      "url": "./resources/images/sun_texture.png"
     },
     {
       "name": "null",

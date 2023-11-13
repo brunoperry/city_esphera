@@ -212,6 +212,7 @@ button:active {
   width: calc(calc(590px / var(--num-freqs)) - 5px);
   height: 20px;
   background-color: var(--color-d);
+  transform-origin: bottom;
   cursor: pointer;
   opacity: 0.5;
 }

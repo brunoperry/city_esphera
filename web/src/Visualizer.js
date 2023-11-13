@@ -2,6 +2,7 @@ export default class Visualizer {
   #controller;
   #callback;
   #currentFreq;
+  #freqsContainer;
   #currentTrack;
 
   totalFreqs = 0;
@@ -36,9 +37,9 @@ export default class Visualizer {
       tracksContainer.appendChild(btn);
     });
 
-    this.totalFreqs = getComputedStyle(document.body).getPropertyValue("--num-freqs");
+    this.totalFreqs = parseInt(getComputedStyle(document.body).getPropertyValue("--num-freqs"))
 
-    const freqsContainer = document.querySelector("#freqs");
+    this.#freqsContainer = document.querySelector("#freqs");
     for (let i = 0; i < this.totalFreqs; i++) {
       const freq = document.createElement("div");
       freq.className = "freq";
@@ -47,18 +48,22 @@ export default class Visualizer {
         // console.log(this.#currentFreq);
         console.log(this.#controller.get_frequency(currentTrack, i));
       };
-      freqsContainer.appendChild(freq);
+      this.#freqsContainer.appendChild(freq);
     }
   }
 
   update() {
-    // console.log(this.#currentTrack.getFreqData());
+    let count = 0;
+    for (let i = 0; i < 1024; i++) {
 
-    for (let i = 0; i < this.#currentTrack.getFreqData().length; i++) {
-      console.log(this.#currentTrack.get_frequency(i));
       i += this.totalFreqs;
+      const frq = this.#freqsContainer.children[count];
+      if(frq) {
+        frq.style.transform = `scaleY(${this.#currentTrack.get_frequency(i)*5})`;
+      }
+
+      count++;
     }
-    console.log("-------");
     // this.#currentTrack.getFreqData.forEach((freqs) => {
     //   console.log(freqs);
     // });
