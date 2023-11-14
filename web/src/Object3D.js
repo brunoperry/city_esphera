@@ -4,7 +4,7 @@ import WASM from "./WASM.js";
 
 export default class Object3D {
   #obj_data = null;
-
+  #obj_id = -1;
   #p_buffer;
   #r_buffer;
   #s_buffer;
@@ -24,6 +24,10 @@ export default class Object3D {
     this.#s_buffer = buffers[5];
 
     new Int8Array(WASM.mem, buffers[6], 1).set(this.texture.id);
+
+
+    console.log(buffers)
+    this.#obj_id = buffers[7];
 
     this.position = vec3(0, 0, 0);
     this.rotation = vec3(0, 0, 0);
@@ -64,6 +68,10 @@ export default class Object3D {
     this.#scl = vec;
     if (!this.#s_buffer) return;
     new Float32Array(WASM.mem, this.#s_buffer, 3).set([vec.x, vec.y, vec.z]);
+  }
+
+  get id() {
+    return this.#obj_id;
   }
 
   get name() {

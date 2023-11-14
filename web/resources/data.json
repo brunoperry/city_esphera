@@ -44,6 +44,11 @@
       "name": "sun",
       "url": "./resources/meshes/sun.obj",
       "texture": "sun"
+    },
+    {
+      "name": "highlight",
+      "url": "./resources/meshes/highlight.obj",
+      "texture": "highlight"
     }
   ],
   "images": [
@@ -70,6 +75,10 @@
     {
       "name": "sun",
       "url": "./resources/images/sun_texture.png"
+    },
+    {
+      "name": "highlight",
+      "url": "./resources/images/highlight.png"
     },
     {
       "name": "null",

@@ -23,6 +23,10 @@ export default class Scene {
 
     WASM.set_object_buffer(obj3d, applyLight);
   }
+
+  set_as_mask() {
+    WASM.set_as_mask_buffer();
+  }
   set_camera(camera) {
     WASM.set_camera_buffer(camera);
   }

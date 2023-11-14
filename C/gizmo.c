@@ -75,7 +75,7 @@ EXPORT unsigned int *set_light_buffer()
 EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length, int textureID, int apply_light)
 {
 
-    unsigned int *obj_buffer = malloc(8 * sizeof(int));
+    unsigned int *obj_buffer = malloc(9 * sizeof(int));
 
     object_to_build.v_buffer = malloc(v_length * sizeof(float));
     object_to_build.v_buffer_len = v_length;
@@ -88,6 +88,7 @@ EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length
 
     object_to_build.textureID = textureID;
     object_to_build.apply_light = apply_light;
+    object_to_build.id = total_objs3d;
 
     object_to_build.p_buffer = malloc(3 * sizeof(float));
     object_to_build.r_buffer = malloc(3 * sizeof(float));
@@ -101,10 +102,13 @@ EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length
     obj_buffer[5] = (unsigned int)object_to_build.s_buffer;
     obj_buffer[6] = (unsigned int)object_to_build.textureID;
     obj_buffer[7] = (unsigned int)object_to_build.apply_light;
+    obj_buffer[8] = (unsigned int)object_to_build.id;
 
     return obj_buffer;
 }
-
+EXPORT void set_as_mask_buffer(int id) {
+    mask_buffer_create(id);
+}
 EXPORT void obj_done()
 {
     objs3d[total_objs3d] = obj3d_build(&object_to_build);

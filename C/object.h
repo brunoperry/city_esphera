@@ -22,6 +22,7 @@ typedef struct
     // unsigned int *t_buffer;
     int textureID;
     int apply_light;
+    int id;
     // int t_width;
     // int t_height;
 
@@ -37,6 +38,7 @@ typedef struct
     mesh_t mesh;
     int textureID;
     int apply_light;
+    int id;
 
 } object3d_t;
 

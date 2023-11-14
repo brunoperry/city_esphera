@@ -4,6 +4,7 @@ import { vec3 } from "./math.js";
 
 export default class TestScene extends Scene {
   #sky;
+  #hightlight;
   #obj;
   #sun;
   // #obj2;
@@ -20,18 +21,12 @@ export default class TestScene extends Scene {
     super("surfer");
 
     this.#sky = Resources.get_object("sky");
-    this.#sun = Resources.get_object("sun");
-    // this.#obj = Resources.get_object("city01");
-    // this.#obj2 = Resources.get_object("city01");
-    // this.#obj3 = Resources.get_object("city02");
-    // this.#obj4 = Resources.get_object("city02");
-    // this.#obj5 = Resources.get_object("city01");
-    // this.#billboard01 = Resources.get_object("billboard01");
-    // this.#billboard02 = Resources.get_object("billboard02");
+    // this.#sun = Resources.get_object("sun");
+    // this.#hightlight = Resources.get_object("highlight");
     this.#skyline = Resources.get_object("skyline");
 
     // this.#antenna01 = Resources.get_object("antenna01");
-    this.#plane = Resources.get_object("plane");
+    // this.#plane = Resources.get_object("plane");
 
     // this.add_obj3d(this.#obj);
     // this.add_obj3d(this.#obj2);
@@ -42,9 +37,19 @@ export default class TestScene extends Scene {
     // this.add_obj3d(this.#billboard01);
     // this.add_obj3d(this.#billboard02);
     this.add_obj3d(this.#skyline);
-    this.add_obj3d(this.#sun, 0);
+    // this.add_obj3d(this.#sun, 0);
     this.add_obj3d(this.#sky, 0);
-    this.add_obj3d(this.#plane);
+
+    console.log(this.#skyline);
+    // this.add_obj3d(this.#plane);
+    // this.add_obj3d(this.#hightlight, 0);
+
+
+    // this.#sun.scale = vec3(2,2,2);
+
+    // this.#sun.position = vec3(0,0,-5);
+
+    this.light.position = vec3(0, 0, 5);
 
     // this.#sky.position = vec3(0, 4, 0);
     // this.#skyline.position = vec3(0, 4, 0);
@@ -72,8 +77,8 @@ export default class TestScene extends Scene {
   }
 
   update(delta) {
-    // const yRot = Math.sin((this.#obj.rotation.y += delta + 1));
-    // this.#skyline.rotation = vec3(0, yRot, yRot);
+    // const yRot = Math.sin((this.light.position.z / 100)) ;
+    // this.#sun.position = vec3(0, 0, yRot * 10);
 
     // this.#obj.rotate(delta);
     super.update(delta);

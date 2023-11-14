@@ -21,6 +21,8 @@ typedef struct
     int texture_width;
     int texture_height;
     float *z_buffer;
+    unsigned int *mask_buffer;
+    int mask_id;
 
     int bytes_length;
     unsigned int *render_mode;
@@ -41,6 +43,7 @@ typedef struct
 } display_size_t;
 
 uint32_t *display_create(int width, int height);
+void mask_buffer_create(int id);
 unsigned int *add_texture(int width, int height, int id);
 void draw(object3d_t *obj3d);
 void draw_wired_triangle(int x0, int y0, int x1, int y1, int x2, int y2, int color);

@@ -19,6 +19,13 @@ inline uint32_t *display_create(int width, int height)
 
     return color_buffer;
 }
+inline void mask_buffer_create(int id)
+{
+    int length = display.width * display.height;
+    uint32_t *mask_buffer = malloc(length * sizeof(uint32_t));
+    display.mask_buffer = mask_buffer;
+    display.mask_id = id;
+}
 inline unsigned int *add_texture(int width, int height, int id)
 {
 

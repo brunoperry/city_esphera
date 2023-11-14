@@ -84,6 +84,9 @@ export default class WASM {
     obj3D.initialize(buffers);
     WASM.#c_module.obj_done();
   }
+  static set_as_mask_buffer() {
+    WASM.#c_module.set_as_mask_buffer();
+  }
 
   static apply_filter(filter) {
     switch (filter) {
