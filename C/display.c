@@ -2,6 +2,8 @@
 
 static bool do_mask;
 
+static int is_outline;
+
 inline uint32_t *display_create(int width, int height)
 {
     int length = width * height;
@@ -46,8 +48,7 @@ inline unsigned int *add_texture(int width, int height, int id)
 inline void draw(object3d_t *obj3d)
 {
     do_mask = (obj3d->id == display.mask_id);
-
-    
+    is_outline = obj3d->is_outline;
 
     if (display.render_mode[0] == 0)
     {
@@ -97,7 +98,6 @@ inline void draw_wired_triangle(int x0, int y0, int x1, int y1, int x2, int y2, 
 }
 inline void draw_textured_triangle(int x0, int y0, float z0, float w0, float u0, float v0, int x1, int y1, float z1, float w1, float u1, float v1, int x2, int y2, float z2, float w2, float u2, float v2, float light_intensity, texture_t *texture)
 {
-
     // We need to sort the vertices by y-coordinate ascending (y0 < y1 < y2)
     if (y0 > y1)
     {
@@ -299,7 +299,7 @@ inline void draw_triangle_texel(int x, int y, vec4_t point_a, vec4_t point_b, ve
     vec2_t a = vec2_from_vec4(point_a);
     vec2_t b = vec2_from_vec4(point_b);
     vec2_t c = vec2_from_vec4(point_c);
-
+     
     // Calculate the barycentric coordinates of our point 'p' inside the triangle
     vec3_t weights = barycentric_weights(a, b, c, p);
 
@@ -330,7 +330,7 @@ inline void draw_triangle_texel(int x, int y, vec4_t point_a, vec4_t point_b, ve
     // Adjust 1/w so the pixels that are closer to the camera have smaller values
     interpolated_reciprocal_w = 1.0 - interpolated_reciprocal_w;
     // Only draw the pixel if the depth value is less than the one previously stored in the z-buffer
-    if (interpolated_reciprocal_w < display.z_buffer[(display.width * y) + x])
+    if (interpolated_reciprocal_w < display.z_buffer[(display.width * y) + x] || is_outline == 1)
     {
         // int color = texture->texture_buffer[(texture->width * tex_y) + tex_x];
         int color = light_apply_intensity(texture->texture_buffer[(texture->width * tex_y) + tex_x], light_intensity);
@@ -345,8 +345,6 @@ inline void draw_triangle_texel(int x, int y, vec4_t point_a, vec4_t point_b, ve
     if(do_mask) {
         display.mask_buffer[(display.width * y) + x] = 1;
     }
-
-    
 }
 inline void draw_triangle_pixel(int x, int y, int color, vec4_t point_a, vec4_t point_b, vec4_t point_c)
 {
@@ -436,6 +434,16 @@ inline void clear_color_buffer(int color)
             display.color_buffer[(display.width * y) + x] = color;
             display.z_buffer[(display.width * y) + x] = 1.0f;
             display.mask_buffer[(display.width * y) + x] = 0;
+        }
+    }
+}
+
+inline void clear_z_buffer(void) {
+    for (int y = 0; y < display.height; y++)
+    {
+        for (int x = 0; x < display.width; x++)
+        {
+            display.z_buffer[(display.width * y) + x] = 0.0f;
         }
     }
 }

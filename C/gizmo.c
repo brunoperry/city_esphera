@@ -34,7 +34,9 @@ static light_t light_to_build;
 
 static object3d_to_build_t object_to_build;
 static object3d_t *objs3d[MAX_OBJECTS];
+static object3d_t *outlines3d[MAX_OBJECTS];
 static int total_objs3d = 0;
+static int total_outlines = 0;
 
 EXPORT unsigned int *set_camera_buffer()
 {
@@ -72,9 +74,8 @@ EXPORT unsigned int *set_light_buffer()
 
     return light_buffer;
 }
-EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length, int textureID, int apply_light)
+EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length, int textureID, int apply_light, int is_outline)
 {
-
     unsigned int *obj_buffer = malloc(9 * sizeof(int));
 
     object_to_build.v_buffer = malloc(v_length * sizeof(float));
@@ -89,6 +90,7 @@ EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length
     object_to_build.textureID = textureID;
     object_to_build.apply_light = apply_light;
     object_to_build.id = total_objs3d;
+    object_to_build.is_outline = is_outline;
 
     object_to_build.p_buffer = malloc(3 * sizeof(float));
     object_to_build.r_buffer = malloc(3 * sizeof(float));
@@ -106,14 +108,19 @@ EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length
 
     return obj_buffer;
 }
-EXPORT void set_as_mask_id(int id) {
-    
-    set_mask_id(id);
-}
 EXPORT void obj_done()
 {
-    objs3d[total_objs3d] = obj3d_build(&object_to_build);
-    total_objs3d++;
+    if(object_to_build.is_outline == 1)
+    {
+        outlines3d[total_outlines] = obj3d_build(&object_to_build);
+        total_outlines++;
+    }
+    else
+    {
+        objs3d[total_objs3d] = obj3d_build(&object_to_build);
+        total_objs3d++;
+    }
+    // objs3d[total_objs3d] = obj3d_build(&object_to_build);
 }
 EXPORT void cam_done()
 {
@@ -123,7 +130,10 @@ EXPORT void light_done()
 {
     light3d = light_build(&light_to_build);
 }
-
+EXPORT void set_as_mask_id(int id) {
+    
+    set_mask_id(id);
+}
 void apply_filter(int filter)
 {
     if (filter == 0)
@@ -139,7 +149,8 @@ EXPORT void update()
 {
     // clear_z_buffer();
     // clear_color_buffer(0xffc9fd);
-    clear_color_buffer(0xffff773e);
+    // 6fc7ef
+    clear_color_buffer(0xffefc76f);
     mat4_t view_matrix = cam_view();
     mat4_t proj_matrix = camera3d->proj_matrix;
     vec3_t light_dir = mat4_mul_vec3(view_matrix, vec3_new(light3d->direction[0], light3d->direction[1], light3d->direction[2]));
@@ -152,6 +163,14 @@ EXPORT void update()
         draw(objs3d[i]);
     }
     apply_mask();
+    clear_z_buffer();
+
+    for (int i = 0; i < total_outlines; i++)
+    {
+        transform_object(view_matrix, proj_matrix, outlines3d[i], display_size, light_dir);
+        total_tris += outlines3d[i]->mesh.num_triangles_to_render;
+        draw(outlines3d[i]);
+    }
 
     // apply_filter(0);
     info_log(total_tris, total_tris * 3);

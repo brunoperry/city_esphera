@@ -6,39 +6,14 @@
       "texture": "sky"
     },
     {
-      "name": "city01",
-      "url": "./resources/meshes/city01.obj",
-      "texture": "citymap"
+      "name": "outline",
+      "url": "./resources/meshes/outline.obj",
+      "texture": "city"
     },
     {
-      "name": "city02",
+      "name": "city",
       "url": "./resources/meshes/city02.obj",
-      "texture": "citymap"
-    },
-    {
-      "name": "antenna01",
-      "url": "./resources/meshes/antenna01.obj",
-      "texture": "citymap"
-    },
-    {
-      "name": "billboard01",
-      "url": "./resources/meshes/billboard01.obj",
-      "texture": "billboards"
-    },
-    {
-      "name": "billboard02",
-      "url": "./resources/meshes/billboard02.obj",
-      "texture": "billboards"
-    },
-    {
-      "name": "skyline",
-      "url": "./resources/meshes/skyline.obj",
-      "texture": "skyline"
-    },
-    {
-      "name": "plane",
-      "url": "./resources/meshes/plane.obj",
-      "texture": "plane"
+      "texture": "city"
     },
     {
       "name": "sun",
@@ -49,11 +24,6 @@
       "name": "highlight",
       "url": "./resources/meshes/highlight.obj",
       "texture": "highlight"
-    },
-    {
-      "name": "silhouete1",
-      "url": "./resources/meshes/silhouete1.obj",
-      "texture": "citymap"
     }
   ],
   "images": [
@@ -62,20 +32,8 @@
       "url": "./resources/images/sky.png"
     },
     {
-      "name": "citymap",
-      "url": "./resources/images/city_colors.png"
-    },
-    {
-      "name": "billboards",
-      "url": "./resources/images/billboards.jpeg"
-    },
-    {
-      "name": "plane",
-      "url": "./resources/images/plane_texture.jpg"
-    },
-    {
-      "name": "skyline",
-      "url": "./resources/images/skyline_texture.jpg"
+      "name": "city",
+      "url": "./resources/images/city_texture.jpg"
     },
     {
       "name": "sun",

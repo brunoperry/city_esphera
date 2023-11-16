@@ -72,13 +72,14 @@ export default class WASM {
     light.initialize(buffers);
     WASM.#c_module.light_done();
   }
-  static set_object_buffer(obj3D, applyLight) {
+  static set_object_buffer(obj3D, applyLight, isOutline) {
     const obj_buffer = WASM.#c_module.set_object_buffer(
       obj3D.vertices.length,
       obj3D.uvs.length,
       obj3D.normals.length,
       obj3D.texture.id,
-      applyLight
+      applyLight,
+      isOutline
     );
     const buffers = new Int32Array(WASM.mem, obj_buffer, 9);
     obj3D.initialize(buffers);

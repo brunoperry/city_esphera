@@ -23,6 +23,7 @@ typedef struct
     int textureID;
     int apply_light;
     int id;
+    int is_outline;
     // int t_width;
     // int t_height;
 
@@ -39,6 +40,7 @@ typedef struct
     int textureID;
     int apply_light;
     int id;
+    int is_outline;
 
 } object3d_t;
 

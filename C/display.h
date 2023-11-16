@@ -55,6 +55,7 @@ void draw_triangle_pixel(int x, int y, int color, vec4_t point_a, vec4_t point_b
 void draw_pixel(int x, int y, uint32_t color);
 void draw_line(int x0, int y0, int x1, int y1, int color);
 void clear_color_buffer(int color);
+void clear_z_buffer(void);
 void apply_mask(void);
 void apply_fisheye(display_size_t display_size);
 void apply_barrel_distortion(display_size_t display_size);
