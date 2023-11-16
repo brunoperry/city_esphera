@@ -1,10 +1,13 @@
 #include "display.h"
 
+static bool do_mask;
+
 inline uint32_t *display_create(int width, int height)
 {
     int length = width * height;
     uint32_t *color_buffer = malloc(length * sizeof(uint32_t));
     uint32_t *filter_buffer = malloc(length * sizeof(uint32_t));
+    uint32_t *mask_buffer = malloc(length * sizeof(uint32_t));
     float *z_buffer = (float *)malloc(length * sizeof(float));
 
     display.width = width;
@@ -15,15 +18,13 @@ inline uint32_t *display_create(int width, int height)
     display.color_buffer = color_buffer;
     display.filter_buffer = filter_buffer;
     display.z_buffer = z_buffer;
+    display.mask_buffer = mask_buffer;
     display.bytes_length = width * height;
 
     return color_buffer;
 }
-inline void mask_buffer_create(int id)
+inline void set_mask_id(int id)
 {
-    int length = display.width * display.height;
-    uint32_t *mask_buffer = malloc(length * sizeof(uint32_t));
-    display.mask_buffer = mask_buffer;
     display.mask_id = id;
 }
 inline unsigned int *add_texture(int width, int height, int id)
@@ -44,6 +45,10 @@ inline unsigned int *add_texture(int width, int height, int id)
 }
 inline void draw(object3d_t *obj3d)
 {
+    do_mask = (obj3d->id == display.mask_id);
+
+    
+
     if (display.render_mode[0] == 0)
     {
         for (int i = 0; i < obj3d->mesh.num_triangles_to_render; i++)
@@ -198,7 +203,6 @@ inline void draw_textured_triangle(int x0, int y0, float z0, float w0, float u0,
 }
 inline void draw_filled_triangle(int x0, int y0, float z0, float w0, int x1, int y1, float z1, float w1, int x2, int y2, float z2, float w2, int color)
 {
-
     // We need to sort the vertices by y-coordinate ascending (y0 < y1 < y2)
     if (y0 > y1)
     {
@@ -325,7 +329,6 @@ inline void draw_triangle_texel(int x, int y, vec4_t point_a, vec4_t point_b, ve
 
     // Adjust 1/w so the pixels that are closer to the camera have smaller values
     interpolated_reciprocal_w = 1.0 - interpolated_reciprocal_w;
-
     // Only draw the pixel if the depth value is less than the one previously stored in the z-buffer
     if (interpolated_reciprocal_w < display.z_buffer[(display.width * y) + x])
     {
@@ -338,6 +341,12 @@ inline void draw_triangle_texel(int x, int y, vec4_t point_a, vec4_t point_b, ve
         // Update the z-buffer value with the 1/w of this current pixel
         display.z_buffer[(display.width * y) + x] = interpolated_reciprocal_w;
     }
+    
+    if(do_mask) {
+        display.mask_buffer[(display.width * y) + x] = 1;
+    }
+
+    
 }
 inline void draw_triangle_pixel(int x, int y, int color, vec4_t point_a, vec4_t point_b, vec4_t point_c)
 {
@@ -368,6 +377,7 @@ inline void draw_triangle_pixel(int x, int y, int color, vec4_t point_a, vec4_t 
 
         // Update the z-buffer value with the 1/w of this current pixel
         display.z_buffer[(display.width * y) + x] = interpolated_reciprocal_w;
+       
     }
 }
 inline void draw_pixel(int x, int y, uint32_t color)
@@ -424,19 +434,12 @@ inline void clear_color_buffer(int color)
         for (int x = 0; x < display.width; x++)
         {
             display.color_buffer[(display.width * y) + x] = color;
-        }
-    }
-}
-inline void clear_z_buffer(void)
-{
-    for (int y = 0; y < display.height; y++)
-    {
-        for (int x = 0; x < display.width; x++)
-        {
             display.z_buffer[(display.width * y) + x] = 1.0f;
+            display.mask_buffer[(display.width * y) + x] = 0;
         }
     }
 }
+
 inline unsigned int *set_render_mode()
 {
     unsigned int *render_mode_buffer = malloc(3 * sizeof(int));
@@ -445,6 +448,17 @@ inline unsigned int *set_render_mode()
     return render_mode_buffer;
 }
 
+inline void apply_mask(void) {
+    for (int y = 0; y < display.height; y++)
+    {
+        for (int x = 0; x < display.width; x++)
+        {
+            if(display.mask_buffer[(display.width * y) + x] == 0) {
+                display.color_buffer[(display.width * y) + x] = 0xffffffff;
+            }
+        }
+    }
+}
 inline void apply_fisheye(display_size_t display_size)
 {
     int width = display_size.width;

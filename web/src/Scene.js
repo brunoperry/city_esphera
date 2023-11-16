@@ -19,13 +19,15 @@ export default class Scene {
   }
 
   add_obj3d(obj3d, applyLight = 1) {
+
+    // obj3d.id = this.objects_3d.length;
     this.objects_3d.push(obj3d);
 
     WASM.set_object_buffer(obj3d, applyLight);
   }
 
-  set_as_mask() {
-    WASM.set_as_mask_buffer();
+  set_as_mask(id) {
+    WASM.set_as_mask_buffer(id);
   }
   set_camera(camera) {
     WASM.set_camera_buffer(camera);

@@ -11,10 +11,11 @@ inline object3d_t *obj3d_build(object3d_to_build_t *obj3d_to_build)
     obj3d->scale = obj3d_to_build->s_buffer;
     obj3d->textureID = obj3d_to_build->textureID;
     obj3d->id = obj3d_to_build->id;
-
-    int_log(obj3d_to_build->id);
     obj3d->apply_light = obj3d_to_build->apply_light;
 
+
+    
+    
     obj3d->mesh.v_num = v_len / 3;
     obj3d->mesh.num_triangles = (v_len / 3) / 3;
 

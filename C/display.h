@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include "object.h"
 #include "light3d.h"
@@ -43,7 +44,7 @@ typedef struct
 } display_size_t;
 
 uint32_t *display_create(int width, int height);
-void mask_buffer_create(int id);
+void set_mask_id(int id);
 unsigned int *add_texture(int width, int height, int id);
 void draw(object3d_t *obj3d);
 void draw_wired_triangle(int x0, int y0, int x1, int y1, int x2, int y2, int color);
@@ -54,9 +55,11 @@ void draw_triangle_pixel(int x, int y, int color, vec4_t point_a, vec4_t point_b
 void draw_pixel(int x, int y, uint32_t color);
 void draw_line(int x0, int y0, int x1, int y1, int color);
 void clear_color_buffer(int color);
+void apply_mask(void);
 void apply_fisheye(display_size_t display_size);
 void apply_barrel_distortion(display_size_t display_size);
-void clear_z_buffer(void);
+// void clear_z_buffer(void);
+// void clear_mask_buffer(void);
 
 unsigned int *set_render_mode();
 

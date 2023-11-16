@@ -1,5 +1,4 @@
 import { angleToRadians, vec3 } from "./math.js";
-import Texture from "./Texture.js";
 import WASM from "./WASM.js";
 
 export default class Object3D {
@@ -26,8 +25,10 @@ export default class Object3D {
     new Int8Array(WASM.mem, buffers[6], 1).set(this.texture.id);
 
 
-    console.log(buffers)
-    this.#obj_id = buffers[7];
+    // this.#obj_id = new Int8Array(WASM.mem, buffers[7], 1)[0];
+    
+    this.#obj_id = buffers[8];
+    // int_log(buffers[7]);
 
     this.position = vec3(0, 0, 0);
     this.rotation = vec3(0, 0, 0);
@@ -72,6 +73,9 @@ export default class Object3D {
 
   get id() {
     return this.#obj_id;
+  }
+  set id(val) {
+    return this.#obj_id = val;
   }
 
   get name() {

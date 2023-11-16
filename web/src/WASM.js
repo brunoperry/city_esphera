@@ -80,12 +80,13 @@ export default class WASM {
       obj3D.texture.id,
       applyLight
     );
-    const buffers = new Int32Array(WASM.mem, obj_buffer, 7);
+    const buffers = new Int32Array(WASM.mem, obj_buffer, 9);
     obj3D.initialize(buffers);
     WASM.#c_module.obj_done();
   }
-  static set_as_mask_buffer() {
-    WASM.#c_module.set_as_mask_buffer();
+  static set_as_mask_buffer(id) {
+    
+    WASM.#c_module.set_as_mask_id(id);
   }
 
   static apply_filter(filter) {

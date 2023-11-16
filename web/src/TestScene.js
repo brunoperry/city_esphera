@@ -23,7 +23,7 @@ export default class TestScene extends Scene {
     this.#sky = Resources.get_object("sky");
     // this.#sun = Resources.get_object("sun");
     // this.#hightlight = Resources.get_object("highlight");
-    this.#skyline = Resources.get_object("skyline");
+    this.#skyline = Resources.get_object("silhouete1");
 
     // this.#antenna01 = Resources.get_object("antenna01");
     // this.#plane = Resources.get_object("plane");
@@ -36,11 +36,13 @@ export default class TestScene extends Scene {
     // this.add_obj3d(this.#antenna01);
     // this.add_obj3d(this.#billboard01);
     // this.add_obj3d(this.#billboard02);
-    this.add_obj3d(this.#skyline);
-    // this.add_obj3d(this.#sun, 0);
     this.add_obj3d(this.#sky, 0);
+    this.add_obj3d(this.#skyline);
 
-    console.log(this.#skyline);
+    // console.log("sky", this.#sky.id);
+    // this.add_obj3d(this.#sun, 0);
+
+    this.set_as_mask(0)
     // this.add_obj3d(this.#plane);
     // this.add_obj3d(this.#hightlight, 0);
 
@@ -73,7 +75,7 @@ export default class TestScene extends Scene {
 
     // this.#billboard02.position = vec3(0.5, 2, 0.45);
 
-    this.camera.position = vec3(0, 0, -15);
+    this.camera.position = vec3(0, 0, -35);
   }
 
   update(delta) {

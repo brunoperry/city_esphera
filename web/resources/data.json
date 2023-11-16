@@ -49,6 +49,11 @@
       "name": "highlight",
       "url": "./resources/meshes/highlight.obj",
       "texture": "highlight"
+    },
+    {
+      "name": "silhouete1",
+      "url": "./resources/meshes/silhouete1.obj",
+      "texture": "citymap"
     }
   ],
   "images": [

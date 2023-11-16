@@ -106,8 +106,9 @@ EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length
 
     return obj_buffer;
 }
-EXPORT void set_as_mask_buffer(int id) {
-    mask_buffer_create(id);
+EXPORT void set_as_mask_id(int id) {
+    
+    set_mask_id(id);
 }
 EXPORT void obj_done()
 {
@@ -136,7 +137,7 @@ void apply_filter(int filter)
 }
 EXPORT void update()
 {
-    clear_z_buffer();
+    // clear_z_buffer();
     // clear_color_buffer(0xffc9fd);
     clear_color_buffer(0xffff773e);
     mat4_t view_matrix = cam_view();
@@ -150,6 +151,7 @@ EXPORT void update()
         total_tris += objs3d[i]->mesh.num_triangles_to_render;
         draw(objs3d[i]);
     }
+    apply_mask();
 
     // apply_filter(0);
     info_log(total_tris, total_tris * 3);
