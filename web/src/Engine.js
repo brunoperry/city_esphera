@@ -23,6 +23,7 @@ export default class Engine {
   #scene = null;
 
   #loopID = null;
+  #t = 0;
   #delta_time = 0;
   #frame = 0;
   #current_fps = 0;
@@ -39,8 +40,10 @@ export default class Engine {
     await Resources.initialize(this.#listener, Engine.States.LOADING);
     InputController.initialize();
 
-    this.#scene = new scene();
     this.#audio = new AudioController();
+    this.#scene = new scene({
+      audioController: this.#audio
+    });
     this.#display = new Display();
 
     document.addEventListener("pointerlockchange", (e) => {
@@ -76,22 +79,25 @@ export default class Engine {
   }
 
   #loop(once = false) {
-    let time = performance.now();
-    this.#delta_time = (time - this.#previous_frame_time) / 1000.0;
+    let currentTime = performance.now();
+    // this.#delta_time = (time - this.#previous_frame_time) / 1000.0;
     this.#frame++;
-    if (time - this.#start_time > 1000) {
-      this.#current_fps = (this.#frame / ((time - this.#start_time) / 1000)).toFixed(1);
+    if (currentTime - this.#start_time > 1000) {
+      this.#current_fps = (this.#frame / ((currentTime - this.#start_time) / 1000)).toFixed(1);
 
-      this.#start_time = time;
+      this.#start_time = currentTime;
       this.#frame = 0;
     }
-    this.#previous_frame_time = time;
 
-    this.#scene.update(this.#delta_time);
+    // Calculate delta time since the last frame
+    const deltaTime = (currentTime - this.#previous_frame_time) / 1000; // Convert to seconds
+    
+    this.#previous_frame_time = currentTime;
+    this.#scene.update(deltaTime);
 
     WASM.update();
 
-    this.#display.update();
+    this.#display.update(this.#audio);
 
     if (!once) this.#loopID = requestAnimationFrame(() => this.#loop());
   }

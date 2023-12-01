@@ -2,9 +2,12 @@ import Display from "./Display.js";
 import WASM from "./WASM.js";
 import {
   mat4_from_rotation,
+  mat4_look_at,
   vec3,
   vec3_cross,
+  vec3_normalize,
   vec3_scale_and_add,
+  vec3_subtract,
   vec3_transform_mat4,
 } from "./math.js";
 import InputController from "./InputController.js";
@@ -30,8 +33,8 @@ export default class Camera3D {
     this.aspect_x = Display.width / Display.height;
     this.aspect_y = Display.height / Display.width;
 
-    this.fov_x = 60;
-    this.fov_y = 60;
+    this.fov_x = 100;
+    this.fov_y = 100;
 
     this.z_near = 0.01;
     this.z_far = 100;
@@ -48,6 +51,33 @@ export default class Camera3D {
   update(delta) {
     this.#mouseUpdate();
     this.#checkInputs();
+  }
+
+  lookAt(target) {
+
+    const zAxis = vec3_normalize(vec3_subtract(target, this.position));
+    this.direction = zAxis;
+
+    // const viewMat = mat4_look_at(vec, this.position, this.#UP);
+    // this.#dir = vec3_transform_mat4(this.#dir, viewMat);
+    // this.direction = vec3(this.#dir.x, this.#dir.y, this.#dir.z);
+
+    // console.log(vec)
+    // const rotateY = mat4_from_rotation(
+    //   -vec.x * this.#ROTATE_SPEED,
+    //   this.#UP
+    // );
+
+    // const toRotateAround = vec3_cross(this.#dir, this.#UP);
+    // const rotateX = mat4_from_rotation(
+    //   vec.y * this.#ROTATE_SPEED,
+    //   toRotateAround
+    // );
+
+    // this.#dir = vec3_transform_mat4(this.#dir, rotateX);
+    // this.#dir = vec3_transform_mat4(this.#dir, rotateY);
+
+
   }
   #mouseUpdate() {
     const rotateY = mat4_from_rotation(

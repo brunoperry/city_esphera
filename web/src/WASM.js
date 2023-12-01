@@ -43,8 +43,13 @@ export default class WASM {
   static vec4_log(x, y, z, w) {
     console.log("vec4", `x:${x}, y:${y}, z:${z}, w:${w}`);
   }
-  static mat4_log(x, y, z) {
-    console.log("vec3", `x:${x},y:${y},z:${z}`);
+  static mat4_log(a0, a1, a2, a3, b0, b1, b2, b3, c0, c1, c2, c3, d0, d1, d2, d3) {
+
+    console.table([
+      [a0,a1,a2,a3],
+      [b0,b1,b2,b3],
+      [c0,c1,c2,c3],
+      [d0,d1,d2,d3]]);
   }
 
   static update() {
@@ -81,7 +86,7 @@ export default class WASM {
       applyLight,
       isOutline
     );
-    const buffers = new Int32Array(WASM.mem, obj_buffer, 9);
+    const buffers = new Int32Array(WASM.mem, obj_buffer, 10);
     obj3D.initialize(buffers);
     WASM.#c_module.obj_done();
   }

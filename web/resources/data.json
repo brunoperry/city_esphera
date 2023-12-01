@@ -6,42 +6,265 @@
       "texture": "sky"
     },
     {
-      "name": "outline",
-      "url": "./resources/meshes/outline.obj",
-      "texture": "city"
+      "name": "bubble",
+      "url": "./resources/meshes/bubble.obj",
+      "texture": "bubble"
     },
     {
-      "name": "city",
-      "url": "./resources/meshes/city02.obj",
-      "texture": "city"
+      "name": "outercity",
+      "url": "./resources/meshes/outercity.obj",
+      "texture": "outercity"
+    },
+    {
+      "name": "innercity",
+      "url": "./resources/meshes/innercity.obj",
+      "texture": "innercity_night"
     },
     {
       "name": "sun",
       "url": "./resources/meshes/sun.obj",
-      "texture": "sun"
+      "texture": "sun_moon"
     },
     {
-      "name": "highlight",
-      "url": "./resources/meshes/highlight.obj",
-      "texture": "highlight"
+      "name": "moon",
+      "url": "./resources/meshes/moon.obj",
+      "texture": "sun_moon"
+    },
+    {
+      "name": "a",
+      "url": "./resources/meshes/a.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "b",
+      "url": "./resources/meshes/b.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "c",
+      "url": "./resources/meshes/c.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "d",
+      "url": "./resources/meshes/d.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "e",
+      "url": "./resources/meshes/e.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "f",
+      "url": "./resources/meshes/f.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "g",
+      "url": "./resources/meshes/g.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "h",
+      "url": "./resources/meshes/h.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "i",
+      "url": "./resources/meshes/i.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "j",
+      "url": "./resources/meshes/j.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "k",
+      "url": "./resources/meshes/k.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "l",
+      "url": "./resources/meshes/l.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "m",
+      "url": "./resources/meshes/m.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "n",
+      "url": "./resources/meshes/n.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "o",
+      "url": "./resources/meshes/o.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "p",
+      "url": "./resources/meshes/p.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "q",
+      "url": "./resources/meshes/q.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "r",
+      "url": "./resources/meshes/o.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "s",
+      "url": "./resources/meshes/s.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "t",
+      "url": "./resources/meshes/t.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "u",
+      "url": "./resources/meshes/u.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "v",
+      "url": "./resources/meshes/v.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "w",
+      "url": "./resources/meshes/w.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "x",
+      "url": "./resources/meshes/x.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "y",
+      "url": "./resources/meshes/y.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "z",
+      "url": "./resources/meshes/z.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "atill",
+      "url": "./resources/meshes/atill.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "zero",
+      "url": "./resources/meshes/zero.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "one",
+      "url": "./resources/meshes/one.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "two",
+      "url": "./resources/meshes/two.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "three",
+      "url": "./resources/meshes/three.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "four",
+      "url": "./resources/meshes/four.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "five",
+      "url": "./resources/meshes/five.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "six",
+      "url": "./resources/meshes/six.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "seven",
+      "url": "./resources/meshes/seven.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "eight",
+      "url": "./resources/meshes/eight.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "nine",
+      "url": "./resources/meshes/nine.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "dot",
+      "url": "./resources/meshes/dot.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "dash",
+      "url": "./resources/meshes/dash.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "fslash",
+      "url": "./resources/meshes/fslash.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "oparentisis",
+      "url": "./resources/meshes/oparentisis.obj",
+      "texture": "pallete"
+    },
+    {
+      "name": "cparentisis",
+      "url": "./resources/meshes/cparentisis.obj",
+      "texture": "pallete"
     }
   ],
   "images": [
     {
       "name": "sky",
-      "url": "./resources/images/sky.png"
+      "url": "./resources/images/sky_texture.jpeg"
     },
     {
-      "name": "city",
-      "url": "./resources/images/city_texture.jpg"
+      "name": "outercity",
+      "url": "./resources/images/outercity_texture.jpg"
     },
     {
-      "name": "sun",
-      "url": "./resources/images/sun_texture.png"
+      "name": "innercity_night",
+      "url": "./resources/images/innercity_night_texture.jpeg"
     },
     {
-      "name": "highlight",
-      "url": "./resources/images/highlight.png"
+      "name": "bubble",
+      "url": "./resources/images/bubble_texture.png"
+    },
+    {
+      "name": "sun_moon",
+      "url": "./resources/images/sun_moon_texture.jpeg"
+    },
+    {
+      "name": "pallete",
+      "url": "./resources/images/pallete_texture.jpeg"
     },
     {
       "name": "null",

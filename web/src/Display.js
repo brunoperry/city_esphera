@@ -96,9 +96,9 @@ export default class Display {
   set lock_cursor(val) {
     this.#is_cursor_locked = val;
     if (this.#is_cursor_locked) {
-      this.#canvas.requestPointerLock();
+      // this.#canvas.requestPointerLock();
     } else {
-      document.exitPointerLock();
+      // document.exitPointerLock();
     }
   }
 }

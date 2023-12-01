@@ -13,6 +13,7 @@ inline object3d_t *obj3d_build(object3d_to_build_t *obj3d_to_build)
     obj3d->id = obj3d_to_build->id;
     obj3d->apply_light = obj3d_to_build->apply_light;
     obj3d->is_outline = obj3d_to_build->is_outline;
+    obj3d->is_active = obj3d_to_build->is_active;
     
     obj3d->mesh.v_num = v_len / 3;
     obj3d->mesh.num_triangles = (v_len / 3) / 3;
@@ -59,4 +60,8 @@ inline object3d_t *obj3d_build(object3d_to_build_t *obj3d_to_build)
     };
 
     return obj3d;
+}
+
+void obj3d_destroy(object3d_t *obj3d) {
+    free(obj3d);
 }

@@ -7,11 +7,14 @@ export default class Resources {
   static objects = [];
   static textures = [];
   static audios = [];
+  static keyframes = {};
   static splash = null;
   static main_audio = null;
 
   static async initialize(listener, state) {
     if (listener) listener(state, "loading data.json");
+
+    Resources.keyframes = await Resources.#load_json_data("resources/keyframes.json");
     const raw_data = await Resources.#load_json_data("resources/data.json");
 
     for (let i = 0; i < raw_data.images.length; i++) {

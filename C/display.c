@@ -462,7 +462,7 @@ inline void apply_mask(void) {
         for (int x = 0; x < display.width; x++)
         {
             if(display.mask_buffer[(display.width * y) + x] == 0) {
-                display.color_buffer[(display.width * y) + x] = 0xffffffff;
+                display.color_buffer[(display.width * y) + x] = 0x00ffff00;
             }
         }
     }

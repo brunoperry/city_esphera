@@ -17,6 +17,7 @@ export default class AudioTrack {
   constructor(buffer, name) {
     this.#buffer = buffer;
     this.name = name;
+
   }
 
   get_frequency(val) {
@@ -33,6 +34,7 @@ export default class AudioTrack {
 
     const buff = this.#buffer.slice(0, this.#buffer.byteLength);
     this.#audio_buffer = await this.#audio_ctx.decodeAudioData(buff);
+
     this.#gainNode = this.#audio_ctx.createGain();
     this.#analizer = this.#audio_ctx.createAnalyser();
     this.#analizer.smoothingTimeConstant = 0.9;

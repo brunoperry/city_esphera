@@ -76,7 +76,7 @@ EXPORT unsigned int *set_light_buffer()
 }
 EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length, int textureID, int apply_light, int is_outline)
 {
-    unsigned int *obj_buffer = malloc(9 * sizeof(int));
+    unsigned int *obj_buffer = malloc(10 * sizeof(int));
 
     object_to_build.v_buffer = malloc(v_length * sizeof(float));
     object_to_build.v_buffer_len = v_length;
@@ -95,6 +95,7 @@ EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length
     object_to_build.p_buffer = malloc(3 * sizeof(float));
     object_to_build.r_buffer = malloc(3 * sizeof(float));
     object_to_build.s_buffer = malloc(3 * sizeof(float));
+    object_to_build.is_active = malloc(sizeof(int));
 
     obj_buffer[0] = (unsigned int)object_to_build.v_buffer;
     obj_buffer[1] = (unsigned int)object_to_build.uv_buffer;
@@ -105,8 +106,12 @@ EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length
     obj_buffer[6] = (unsigned int)object_to_build.textureID;
     obj_buffer[7] = (unsigned int)object_to_build.apply_light;
     obj_buffer[8] = (unsigned int)object_to_build.id;
+    obj_buffer[9] = (unsigned int)object_to_build.is_active;
 
     return obj_buffer;
+}
+EXPORT void destroy_obj(int id) {
+    
 }
 EXPORT void obj_done()
 {
@@ -147,31 +152,24 @@ void apply_filter(int filter)
 }
 EXPORT void update()
 {
-    // clear_z_buffer();
-    // clear_color_buffer(0xffc9fd);
-    // 6fc7ef
     clear_color_buffer(0xffefc76f);
     mat4_t view_matrix = cam_view();
     mat4_t proj_matrix = camera3d->proj_matrix;
     vec3_t light_dir = mat4_mul_vec3(view_matrix, vec3_new(light3d->direction[0], light3d->direction[1], light3d->direction[2]));
 
+    // mat4_log(proj_matrix);
+
     int total_tris = 0;
     for (int i = 0; i < total_objs3d; i++)
     {
+        if(objs3d[i]->is_active[0] == 0) continue;
+
         transform_object(view_matrix, proj_matrix, objs3d[i], display_size, light_dir);
         total_tris += objs3d[i]->mesh.num_triangles_to_render;
         draw(objs3d[i]);
     }
-    apply_mask();
-    clear_z_buffer();
+    // apply_mask();
+    // clear_z_buffer();
 
-    for (int i = 0; i < total_outlines; i++)
-    {
-        transform_object(view_matrix, proj_matrix, outlines3d[i], display_size, light_dir);
-        total_tris += outlines3d[i]->mesh.num_triangles_to_render;
-        draw(outlines3d[i]);
-    }
-
-    // apply_filter(0);
     info_log(total_tris, total_tris * 3);
 }

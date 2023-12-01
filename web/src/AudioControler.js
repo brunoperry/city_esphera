@@ -32,6 +32,7 @@ export default class AudioController {
 
     this.#audio_ctx = new AudioContext();
     this.#main_track.set_audio_context(this.#audio_ctx);
+
     this.#trks.forEach((trk) => {
       trk.set_audio_context(this.#audio_ctx);
     });

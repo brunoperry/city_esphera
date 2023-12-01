@@ -9,6 +9,7 @@ export default class Scene {
   light;
   camera;
   name;
+  timeElapsed = 0;
   constructor(name = "unnamed") {
     this.name = name;
     this.light = new Light3D();

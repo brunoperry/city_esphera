@@ -24,6 +24,7 @@ typedef struct
     int apply_light;
     int id;
     int is_outline;
+    int *is_active;
     // int t_width;
     // int t_height;
 
@@ -41,9 +42,11 @@ typedef struct
     int apply_light;
     int id;
     int is_outline;
+    int *is_active;
 
 } object3d_t;
 
 object3d_t *obj3d_build(object3d_to_build_t *obj3d_to_build);
+void obj3d_destroy(object3d_t *obj3d);
 
 #endif

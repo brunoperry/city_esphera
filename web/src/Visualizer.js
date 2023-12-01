@@ -37,7 +37,7 @@ export default class Visualizer {
       tracksContainer.appendChild(btn);
     });
 
-    this.totalFreqs = parseInt(getComputedStyle(document.body).getPropertyValue("--num-freqs"))
+    this.totalFreqs = parseInt(getComputedStyle(document.body).getPropertyValue("--num-freqs"));
 
     this.#freqsContainer = document.querySelector("#freqs");
     for (let i = 0; i < this.totalFreqs; i++) {
@@ -54,12 +54,13 @@ export default class Visualizer {
 
   update() {
     let count = 0;
-    for (let i = 0; i < 1024; i++) {
+    // for (let i = 0; i < 1024; i++) {
+      for (let i = 0; i < this.totalFreqs; i++) {
 
-      i += this.totalFreqs;
+      // i += this.totalFreqs;
       const frq = this.#freqsContainer.children[count];
       if(frq) {
-        frq.style.transform = `scaleY(${this.#currentTrack.get_frequency(i)*5})`;
+        frq.style.transform = `scaleY(${this.#currentTrack.get_frequency(i)*4})`;
       }
 
       count++;
