@@ -44,12 +44,12 @@ export default class WASM {
     console.log("vec4", `x:${x}, y:${y}, z:${z}, w:${w}`);
   }
   static mat4_log(a0, a1, a2, a3, b0, b1, b2, b3, c0, c1, c2, c3, d0, d1, d2, d3) {
-
     console.table([
-      [a0,a1,a2,a3],
-      [b0,b1,b2,b3],
-      [c0,c1,c2,c3],
-      [d0,d1,d2,d3]]);
+      [a0, a1, a2, a3],
+      [b0, b1, b2, b3],
+      [c0, c1, c2, c3],
+      [d0, d1, d2, d3],
+    ]);
   }
 
   static update() {
@@ -78,6 +78,7 @@ export default class WASM {
     WASM.#c_module.light_done();
   }
   static set_object_buffer(obj3D, applyLight, isOutline) {
+    console.log(obj3D);
     const obj_buffer = WASM.#c_module.set_object_buffer(
       obj3D.vertices.length,
       obj3D.uvs.length,
@@ -90,8 +91,8 @@ export default class WASM {
     obj3D.initialize(buffers);
     WASM.#c_module.obj_done();
   }
+  static destroy_object_buffer(obj3d) {}
   static set_as_mask_buffer(id) {
-    
     WASM.#c_module.set_as_mask_id(id);
   }
 

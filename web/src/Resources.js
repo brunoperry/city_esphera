@@ -7,14 +7,16 @@ export default class Resources {
   static objects = [];
   static textures = [];
   static audios = [];
-  static keyframes = {};
+  static timeline = {};
+  static keyframes = null;
   static splash = null;
   static main_audio = null;
 
   static async initialize(listener, state) {
     if (listener) listener(state, "loading data.json");
 
-    Resources.keyframes = await Resources.#load_json_data("resources/keyframes.json");
+    Resources.timeline = await Resources.#load_json_data("resources/timeline.json");
+    Resources.keyframes = Resources.timeline.keyframes;
     const raw_data = await Resources.#load_json_data("resources/data.json");
 
     for (let i = 0; i < raw_data.images.length; i++) {
@@ -303,7 +305,6 @@ export default class Resources {
       uvs: fanned_uvs,
       normals: fanned_normals,
       name: mesh_data.name,
-      texture: mesh_data.texture,
     });
   }
   static #removeEmptyStrings(data) {

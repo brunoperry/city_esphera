@@ -36,6 +36,10 @@ export default class Object3D {
     this.isActive = 1;
   }
 
+  destroy() {
+    WASM.destroy_object_buffer(this);
+  }
+
   clone() {
     const obj = new Object3D(this.#obj_data);
     obj.texture = this.texture;
@@ -89,7 +93,7 @@ export default class Object3D {
     return this.#obj_id;
   }
   set id(val) {
-    return this.#obj_id = val;
+    return (this.#obj_id = val);
   }
 
   get name() {

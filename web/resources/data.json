@@ -31,6 +31,11 @@
       "texture": "sun_moon"
     },
     {
+      "name": "outeroutline",
+      "url": "./resources/meshes/outeroutline2.obj",
+      "texture": "pallete"
+    },
+    {
       "name": "a",
       "url": "./resources/meshes/a.obj",
       "texture": "pallete"

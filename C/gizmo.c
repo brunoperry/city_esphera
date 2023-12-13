@@ -110,12 +110,16 @@ EXPORT unsigned int *set_object_buffer(int v_length, int uv_length, int n_length
 
     return obj_buffer;
 }
-EXPORT void destroy_obj(int id) {
-    
+EXPORT void destroy_object_buffer(int id)
+{
+    for (size_t i = 0; i < total_objs3d; i++)
+    {
+        int_log(objs3d[i]->id);
+    }
 }
 EXPORT void obj_done()
 {
-    if(object_to_build.is_outline == 1)
+    if (object_to_build.is_outline == 1)
     {
         outlines3d[total_outlines] = obj3d_build(&object_to_build);
         total_outlines++;
@@ -135,8 +139,9 @@ EXPORT void light_done()
 {
     light3d = light_build(&light_to_build);
 }
-EXPORT void set_as_mask_id(int id) {
-    
+EXPORT void set_as_mask_id(int id)
+{
+
     set_mask_id(id);
 }
 void apply_filter(int filter)
@@ -162,7 +167,8 @@ EXPORT void update()
     int total_tris = 0;
     for (int i = 0; i < total_objs3d; i++)
     {
-        if(objs3d[i]->is_active[0] == 0) continue;
+        if (objs3d[i]->is_active[0] == 0)
+            continue;
 
         transform_object(view_matrix, proj_matrix, objs3d[i], display_size, light_dir);
         total_tris += objs3d[i]->mesh.num_triangles_to_render;

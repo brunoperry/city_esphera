@@ -10,6 +10,8 @@ export default class Scene {
   camera;
   name;
   timeElapsed = 0;
+  startedAt;
+  currentTime;
   constructor(name = "unnamed") {
     this.name = name;
     this.light = new Light3D();
@@ -20,7 +22,6 @@ export default class Scene {
   }
 
   add_obj3d(obj3d, applyLight = 1, isOutline = 0) {
-
     // obj3d.id = this.objects_3d.length;
     this.objects_3d.push(obj3d);
 
@@ -38,6 +39,9 @@ export default class Scene {
   }
 
   update() {
+    if (!this.startedAt) this.startedAt = Date.now();
+    this.currentTime = Date.now() - this.startedAt;
+
     this.camera.update();
   }
 }
